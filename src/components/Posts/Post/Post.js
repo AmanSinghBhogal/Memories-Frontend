@@ -81,6 +81,11 @@ const Container = styled.div`
         font-size: inherit;
         cursor: pointer;
     }
+    @media (max-width: 756px)
+    {
+        width: 100%;
+        margin: 15px 0px 10px 0px;
+    }
 `;
 
 EditIcon = styled(EditIcon)`
