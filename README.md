@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+<div align="center">
+  <h1 align="center"><img align="" src="./src/images/memories.png" alt="Error 404" height="31"> Memories</h1>
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+<h2>Do you any interesting Anecdote?</h2>
+<h2>Don't wait! Go and post it on: https://memories-619eb.web.app/</h2>
 
-In the project directory, you can run:
 
-### `npm start`
+### Steps to Run on Local Machine
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+***
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### Note: You need to have Node.Js installed in your Local Machine if not, first install it from <a href="https://nodejs.org/en/">here</a>.
+##### Step 1) Clone AmanSinghBhogal/Memories-Frontend repository.
+##### Step 2) Clone AmanSinghBhogal/Memories-Backend repository.
+##### Step 3) Open Memories-Frontend cloned Directory in Command Prompt and run the following command (It will install all the Dependencies needed to run):
+```
+npm i
+```
+#### Step 4) Once all the dependencies are successfully installed, Run the following Command:
+```
+npm start
+```
+#### Step 5) Once the above steps are done you should get the message:
+    You can now view client in the browser.
+      Local:            http://localhost:3000 
+      webpack compiled successfully
+#### Step 6) Open Browser and go to http://localhost:3000
+#### Step 7) Open Memories-Backend Directory in Command Prompt and run the following command:
+```
+npm i
+```
+#### Step 8) Inside the directory create a new file with the name .env and add the following line of code:
+```
+CONNECTION__URL = 'mongodb+srv://<Your-User-Name>:<Your-Password>@<Your-MongoDB-Cluster-Name>'
+```
+#### Step 9) Next Run the following Command: 
+```
+npm start
+```
+#### Step 10) Once the Above steps are completed successfully you should get the message:
+  ```Server Running Successfully on port: 5000```
+#### Note: At this point the App that you are running on your local machine is using online deployed API of our Backend to change that go into src/api/index.js and change the URL to the http://localhost:5000/posts, this line should look like:
+```
+const url = "http://localhost:5000/posts";
+```
+instead of: 
+```
+const url = "https://memories-api1.herokuapp.com/posts";
+```
+***
 
-### `npm test`
+<h1 align="center">Thank You</h1>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+***
