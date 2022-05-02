@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes ,Route } from "react-router-dom";
 import styled from "styled-components";
 import NavBar from './components/NavBar';
 import Home from './components/Home';
+import Authenticate from "./components/Authenticate";
 
 const App = ()=>{
 
@@ -14,6 +15,9 @@ const App = ()=>{
 
                     {/* Home Page Rendering */}
                     <Route exact path = "/" element={ <Home /> } />
+
+                    {/* Authentication */}
+                    <Route exact path = "/auth" element={ <Authenticate /> } />
 
                 </Routes>
             </Container>

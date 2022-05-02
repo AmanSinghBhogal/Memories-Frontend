@@ -1,14 +1,22 @@
 import React from "react";
 import styled from 'styled-components';
 import memories from '../images/memories.png';
+import { Link } from "react-router-dom";
 
 const Header = () =>{
     return(
         <Container>
-            <Title>
-                <img src={memories} />
-                Memories
-            </Title>
+            <Link to="/">
+                <Title>
+                    <img src={memories} />
+                    Memories
+                </Title>
+            </Link>
+            <Link to="/auth"> 
+                <SignIn>
+                    Sign In
+                </SignIn>
+            </Link>
         </Container>
     );
 };
@@ -19,7 +27,6 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 3rem;
     background-color: white;
     padding: 10px 20px;
     border-radius: 10px;
@@ -34,7 +41,11 @@ const Container = styled.div`
             height: 10vw;
         }
     }
+    a{
+        text-decoration: none;
+    }
 `;
+
 
 const Title = styled.div`
     display: flex;
@@ -52,5 +63,17 @@ const Title = styled.div`
         img{
             height: 10vw;
         }
+    }
+`;
+
+const SignIn = styled.div`
+    padding: 10px;
+    cursor: pointer;
+    background-color: blue;
+    border-radius: 10px;
+    color: white;
+    font-size: 1.2rem;
+    :hover{
+        box-shadow: darkblue 0px 0px 12px 0px ;
     }
 `;
