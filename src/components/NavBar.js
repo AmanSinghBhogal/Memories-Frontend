@@ -34,13 +34,6 @@ const Container = styled.div`
     height: 70px;
     width: 80vw;
     box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
-    @media (max-width: 756px)
-    {
-        font-size: 10vw;
-        img{
-            height: 10vw;
-        }
-    }
     a{
         text-decoration: none;
     }
@@ -59,7 +52,7 @@ const Title = styled.div`
     }
     @media (max-width: 756px)
     {
-        font-size: 10vw;
+        font-size: 9vw;
         img{
             height: 10vw;
         }
@@ -75,5 +68,9 @@ const SignIn = styled.div`
     font-size: 1.2rem;
     :hover{
         box-shadow: darkblue 0px 0px 12px 0px ;
+    }
+    @media (max-width: 756px)
+    {
+        font-size: 1rem;
     }
 `;
