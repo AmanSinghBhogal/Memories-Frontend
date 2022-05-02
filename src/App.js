@@ -1,28 +1,24 @@
 import React, { useEffect , useState} from "react";
-import Form from './components/Form/form';
-import Posts from './components/Posts/Posts';
-import { useDispatch } from "react-redux";
-import { getPosts } from './actions/posts';
+import { BrowserRouter as Router, Routes ,Route } from "react-router-dom";
 import styled from "styled-components";
-import Header from './components/Header';
+import NavBar from './components/NavBar';
+import Home from './components/Home';
 
 const App = ()=>{
-    
-    const [currentID, setCurrentID] = useState(null);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch]);
 
     return(
-        <Container>
-            <Header />
-            <Body>
-                <Posts currentID= {currentID} setCurrentID= {setCurrentID}/>
-                <Form currentID= {currentID} setCurrentID= {setCurrentID}/> 
-            </Body>
-        </Container>
+        <Router>
+            <Container>
+                <NavBar />
+                <Routes>
+
+                    {/* Home Page Rendering */}
+                    <Route exact path = "/" element={ <Home /> } />
+
+                </Routes>
+            </Container>
+      </Router>
+        
     );
 };
 
@@ -33,14 +29,4 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`;
-const Body = styled.div`
-    display: flex;
-    justify-content: center;
-    margin: 10px;
-    width: 80vw;
-    @media (max-width: 756px)
-    {
-        flex-direction: column-reverse;
-    }
 `;

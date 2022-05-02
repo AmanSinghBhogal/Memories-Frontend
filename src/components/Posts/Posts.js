@@ -46,5 +46,8 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
-
+    @media (max-width: 756px)
+    {
+        width: 95%;
+    }
 `;

@@ -69,6 +69,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
     width: max(20vw,200px);
     height: 400px;
     margin: 10px;

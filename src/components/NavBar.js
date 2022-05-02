@@ -5,8 +5,10 @@ import memories from '../images/memories.png';
 const Header = () =>{
     return(
         <Container>
-            Memories
-            <img src={memories} />
+            <Title>
+                <img src={memories} />
+                Memories
+            </Title>
         </Container>
     );
 };
@@ -14,18 +16,35 @@ const Header = () =>{
 export default Header;
 
 const Container = styled.div`
-    margin: 30px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 3rem;
-    height: 70px;
-    color: darkblue;
     background-color: white;
+    padding: 10px 20px;
     border-radius: 10px;
+    margin: 30px;
+    height: 70px;
     width: 80vw;
+    box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
+    @media (max-width: 756px)
+    {
+        font-size: 10vw;
+        img{
+            height: 10vw;
+        }
+    }
+`;
+
+const Title = styled.div`
+    display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 2.5rem;
+    color: darkblue;
     img{
-        height: 60px;
+        height: 50px;
+        margin: 0 5px;
     }
     @media (max-width: 756px)
     {

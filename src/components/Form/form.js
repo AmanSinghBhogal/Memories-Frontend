@@ -131,6 +131,7 @@ export default Form;
 
 const Container = styled.div`
     background-color: white;
+    box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
     height: fit-content;
     width: 40%;
     display: flex;
