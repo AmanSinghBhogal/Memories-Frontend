@@ -3,9 +3,14 @@ import styled from 'styled-components';
 import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
+import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom';
 
 
-const Form = ({currentID, setCurrentID}) => {
+const Form = ({currentID, setCurrentID, user}) => {
+
+    const navigate = useNavigate();
+
     const [postData, setpostData] = useState({
         creator: '',
         title: '',
@@ -27,13 +32,33 @@ const Form = ({currentID, setCurrentID}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(currentID)
+        if(currentID && user.email)
         {
             dispatch(updatePost(postData._id, postData));
+            swal({
+                title: "Post Successfully Updated",
+                icon: "success",
+            });
+        }
+        else if(user.email)
+        {
+            dispatch(createPost(postData));
+            swal({
+                title: "Post has been Successfully Posted",
+                icon: "success",
+            });
         }
         else
         {
-            dispatch(createPost(postData))
+            swal({
+                title: "Sign In Required.",
+                text: "Please Sign in to Post New Content.",
+                icon: "warning",
+            }).then(
+                () => {
+                    navigate("/auth");
+                }
+            );
         }
         clear();
     };

@@ -7,18 +7,38 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch } from "react-redux";
 import { deletePost, likePost, dislikePost } from "../../../actions/posts";
+import swal from 'sweetalert';
+import { useNavigate } from 'react-router-dom';
 
 
-const Post = ({post, currentID , setCurrentID}) => {
+const Post = ({post, currentID , setCurrentID, user}) => {
 
     const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
+    function AlertSignIn()  
+    {
+        swal({
+            title: "Sign In Required.",
+            text: "Please Sign in to enable this Feature.",
+            icon: "warning",
+        }).then(
+            () => {navigate("/auth")}
+        );
+    }
 
     return(
         <Container>
             <Heading BgImg={post.selectedFile}>
                 <Top>
                     {post.creator}
-                    <button onClick={() => setCurrentID(post._id)}>
+                    <button onClick={() => {
+                        if(user.email)
+                            setCurrentID(post._id)
+                        else
+                            AlertSignIn();
+                    }}>
                         <EditIcon />
                     </button>
                 </Top>
@@ -40,18 +60,51 @@ const Post = ({post, currentID , setCurrentID}) => {
                 </Message>
                 <Actions>
                         <Like>
-                            <button onClick={() => {dispatch(likePost(post._id))}}>
+                            <button onClick={() => {
+                                if(user.email)
+                                    dispatch(likePost(post._id));
+                                else
+                                    AlertSignIn();
+                            }}>
                                     <ThumbUpAltIcon />
                             </button>
                             &nbsp;
-                            <button onClick={() => {if(post.likeCount>0) dispatch(dislikePost(post._id))}}>
+                            <button onClick={() => {
+                                if(post.likeCount>0 && user.email) 
+                                    dispatch(dislikePost(post._id))
+                                else
+                                    AlertSignIn();
+                            }}>
                                     <ThumbDownAltIcon />
                             </button>
                             &nbsp; Likes {post.likeCount}
                         </Like>
                     
                     
-                    <button onClick={() => {dispatch(deletePost(post._id))}}>
+                    <button onClick={() => {
+                        if(user.email)
+                        {
+                            swal({
+                                title: "Are you sure?",
+                                text: "Once deleted, you will not be able to recover this Post!",
+                                icon: "warning",
+                                buttons: ["Cancel", "Yes"],
+                                dangerMode: true,
+                              })
+                              .then((willDelete) => {
+                                if (willDelete) {
+                                    dispatch(deletePost(post._id));
+                                  swal("Your Post has been Deleted Successfully!", {
+                                    icon: "success",
+                                  });
+                                } else {
+                                  swal("Your Post is Safe!");
+                                }
+                              });
+                        }
+                        else
+                            AlertSignIn();
+                    }}>
                         <Delete>
                             <DeleteIcon />
                             Delete

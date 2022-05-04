@@ -7,17 +7,23 @@ import Authenticate from "./components/Authenticate";
 
 const App = ()=>{
 
+    const [user, setUser] = useState([{
+        email: null,
+        name: null,
+        password: null
+    }]);
+
     return(
         <Router>
             <Container>
-                <NavBar />
+                <NavBar user={user} setUser={setUser} />
                 <Routes>
 
                     {/* Home Page Rendering */}
-                    <Route exact path = "/" element={ <Home /> } />
+                    <Route exact path = "/" element={ <Home user={user} /> } />
 
                     {/* Authentication */}
-                    <Route exact path = "/auth" element={ <Authenticate /> } />
+                    <Route exact path = "/auth" element={ <Authenticate user={user} setUser={setUser} /> } />
 
                 </Routes>
             </Container>

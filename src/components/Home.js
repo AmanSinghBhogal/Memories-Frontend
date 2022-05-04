@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { getPosts } from '../actions/posts';
 import styled from "styled-components";
 
-function Home() {
+function Home({user, setUser}) {
     const [currentID, setCurrentID] = useState(null);
     const dispatch = useDispatch();
 
@@ -15,8 +15,8 @@ function Home() {
 
   return (
         <Body>
-            <Posts currentID= {currentID} setCurrentID= {setCurrentID}/>
-            <Form currentID= {currentID} setCurrentID= {setCurrentID}/> 
+            <Posts currentID= {currentID} setCurrentID= {setCurrentID} user={user}/>
+            <Form currentID= {currentID} setCurrentID= {setCurrentID} user={user}/> 
         </Body>
   );
 }

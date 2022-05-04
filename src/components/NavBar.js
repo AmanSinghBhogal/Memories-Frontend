@@ -1,20 +1,53 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styled from 'styled-components';
 import memories from '../images/memories.png';
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { auth } from "../Authentication/firebase";
+import swal from "sweetalert";
 
-const Header = () =>{
+const Header = ({user, setUser}) =>{
+
+    const navigate = useNavigate();
+
+    const handleSignUp = async () => {
+
+        if(user.email)
+        {
+            swal({
+                title: "Are you sure you want to Sign out?",
+                icon: "warning",
+                buttons: ["Cancel", "Yes"],
+                dangerMode: true,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                    setUser({
+                        name: null,
+                        email: null,
+                        password: null
+                    });
+                    auth.signOut();   
+                    swal("You have Successfully Signed Out!", {
+                        icon: "success",
+                    });
+                } 
+              });
+        }
+    }
     return(
         <Container>
             <Link to="/">
                 <Title>
-                    <img src={memories} />
+                    <img src={memories} alt="Ops"/>
                     Memories
                 </Title>
             </Link>
-            <Link to="/auth"> 
+            <Link to={user.email? "/": "/auth"} onClick={handleSignUp}> 
                 <SignIn>
-                    Sign In
+                    {
+                        user.email? 'Sign Out': 'Log In'
+                    }
                 </SignIn>
             </Link>
         </Container>
