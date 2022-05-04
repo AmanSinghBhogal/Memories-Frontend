@@ -5,6 +5,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { auth } from "../Authentication/firebase";
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import { FcGoogle } from "react-icons/fc";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const Authenticate = ({user, setUser}) => {
 
@@ -12,12 +14,42 @@ const Authenticate = ({user, setUser}) => {
     const [SignUp, setSignUp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = (e) =>
+    const handleGoogleSignIn = async() => {
+        const provider = new GoogleAuthProvider();
+        await auth.
+        signInWithPopup(provider)
+        .then((auth) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            // const credential = GoogleAuthProvider.credentialFromResult(auth);
+            // const token = credential.accessToken;
+            // The signed-in user info.
+            setUser({
+                name: auth.user.displayName,
+                email: auth.user.email,
+                password: auth.user.password
+            })
+            if(auth){
+                navigate('/');
+            }
+            swal({
+                title: "Registered Successful!",
+                icon: "success",
+            });
+        })
+        .catch(error => {
+            swal({
+                title: `${error.message}`,
+                icon: "warning",
+            });
+        });
+    }
+
+    const handleLogin = async (e) =>
     {
         e.preventDefault();
         if(SignUp)
         {
-            auth
+            await auth
             .createUserWithEmailAndPassword( user.email, user.password)
             .then((auth) => {
                 console.log(auth);
@@ -38,7 +70,7 @@ const Authenticate = ({user, setUser}) => {
         }
         else
         {
-            auth
+            await auth
             .signInWithEmailAndPassword( user.email, user.password)
             .then((auth) =>{
                 console.log(auth);
@@ -153,6 +185,13 @@ const Authenticate = ({user, setUser}) => {
                 </Submit>
               </form>
           </Form>
+          <Or>Or</Or>
+          <button className='googleBTN' onClick={handleGoogleSignIn}>
+            <GoogleSignIn>
+                    <FcGoogle className="googleIcon"/>&nbsp;
+                    Sign In with Google
+            </GoogleSignIn>
+          </button>
       </Container>
   );
 };
@@ -172,6 +211,13 @@ const Container = styled.div`
         width: 100%;
         padding: 48px 29px;
         border: none;
+    }
+    .googleBTN{
+        border: none;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        background-color: inherit;
     }
 `;
 
@@ -236,5 +282,33 @@ const Submit = styled.div`
         width: 100%;
         height: 100%;
         border-radius: 50px;
+        :hover{
+            box-shadow: darkblue 0px 0px 12px 0px ;
+        }
+    }
+`;
+const Or = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -20px;
+    height: 40px;
+`;
+
+const GoogleSignIn = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    cursor: pointer;
+    border: 1px solid grey;
+    border-radius: 10px;
+    color: red;
+    font-size: 1rem;
+    :hover{
+        box-shadow: rgb(155 149 149) 0px 0px 12px 0px ;
+    }
+    .googleIcon{
+        font-size:2rem;
     }
 `;

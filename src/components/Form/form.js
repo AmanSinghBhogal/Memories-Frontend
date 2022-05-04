@@ -83,9 +83,9 @@ const Form = ({currentID, setCurrentID, user}) => {
                     <input 
                         type="text" 
                         required = {true}
-                        id="Creator" 
+                        id="Creator"
                         placeholder="Creator" 
-                        value={postData.creator} 
+                        value={currentID? postData.creator: user.name} 
                         onChange={
                             (e) => setpostData({
                                     ...postData,
