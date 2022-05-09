@@ -12,7 +12,7 @@ const Form = ({currentID, setCurrentID, user}) => {
     const navigate = useNavigate();
 
     const [postData, setpostData] = useState({
-        creator: '',
+        creator: user.name,
         title: '',
         message: '',
         tags: '',
@@ -85,7 +85,7 @@ const Form = ({currentID, setCurrentID, user}) => {
                         required = {true}
                         id="Creator"
                         placeholder="Creator" 
-                        value={currentID? postData.creator: user.name} 
+                        value={postData.creator} 
                         onChange={
                             (e) => setpostData({
                                     ...postData,

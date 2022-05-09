@@ -5,10 +5,13 @@ import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../Authentication/firebase";
 import swal from "sweetalert";
+import { LOGOUT } from '../constants/ActionTypes';
+import {useDispatch} from 'react-redux';
 
 const Header = ({user, setUser}) =>{
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSignUp = async () => {
 
@@ -23,11 +26,14 @@ const Header = ({user, setUser}) =>{
               .then((willDelete) => {
                 if (willDelete) {
                     setUser({
-                        name: null,
-                        email: null,
-                        password: null
+                        name: '',
+                        email: '',
+                        password: ''
                     });
-                    auth.signOut();   
+                    auth.signOut();
+                    dispatch({
+                        type: LOGOUT
+                    })   
                     swal("You have Successfully Signed Out!", {
                         icon: "success",
                     });

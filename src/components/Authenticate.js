@@ -7,8 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import { FcGoogle } from "react-icons/fc";
 import { GoogleAuthProvider } from "firebase/auth";
+import {useDispatch} from 'react-redux';
+import { AUTH } from '../constants/ActionTypes';
 
 const Authenticate = ({user, setUser}) => {
+
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
     const [SignUp, setSignUp] = useState(false);
@@ -19,17 +23,24 @@ const Authenticate = ({user, setUser}) => {
         await auth.
         signInWithPopup(provider)
         .then((auth) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            // const credential = GoogleAuthProvider.credentialFromResult(auth);
-            // const token = credential.accessToken;
+
+            // Id Token
+            const token = auth?.credential.idToken;
+            // User ProfileObj
+            const result = auth?.additionalUserInfo.profile;
             // The signed-in user info.
             setUser({
-                name: auth.user.displayName,
-                email: auth.user.email,
-                password: auth.user.password
+                name: result.name,
+                email: result.email,
+                password: result.password
             })
             if(auth){
                 navigate('/');
+                console.log(auth);
+                dispatch({
+                    type: AUTH,
+                    data: {result, token}
+                })
             }
             swal({
                 title: "Registered Successful!",
@@ -47,46 +58,50 @@ const Authenticate = ({user, setUser}) => {
     const handleLogin = async (e) =>
     {
         e.preventDefault();
-        if(SignUp)
-        {
-            await auth
-            .createUserWithEmailAndPassword( user.email, user.password)
-            .then((auth) => {
-                console.log(auth);
-                if(auth){
-                    navigate('/');
-                }
-                swal({
-                    title: "Registered Successful!",
-                    icon: "success",
-                });
-            })
-            .catch(error => {
-                swal({
-                    title: `${error.message}`,
-                    icon: "warning",
-                });
-            });
-        }
-        else
-        {
-            await auth
-            .signInWithEmailAndPassword( user.email, user.password)
-            .then((auth) =>{
-                console.log(auth);
-                navigate('/');
-                swal({
-                    title: "Sign In Successful!",
-                    icon: "success",
-                });
-            })
-            .catch(error => {
-                swal({
-                    title: `${error.message}`,
-                    icon: "warning",
-                });
-            });
-        }
+        swal({
+            title: `The Email and Password login is Currently shut down for development reason. Please Proceed with Google Sign In.`,
+            icon: "warning",
+        });
+        // if(SignUp)
+        // {
+            // await auth
+            // .createUserWithEmailAndPassword( user.email, user.password)
+            // .then((auth) => {
+            //     console.log(auth);
+            //     if(auth){
+            //         navigate('/');
+            //     }
+            //     swal({
+            //         title: "Registered Successful!",
+            //         icon: "success",
+            //     });
+            // })
+            // .catch(error => {
+            //     swal({
+            //         title: `${error.message}`,
+            //         icon: "warning",
+            //     });
+            // });
+        // }
+        // else
+        // {
+            // await auth
+            // .signInWithEmailAndPassword( user.email, user.password)
+            // .then((auth) =>{
+            //     console.log(auth);
+            //     navigate('/');
+            //     swal({
+            //         title: "Sign In Successful!",
+            //         icon: "success",
+            //     });
+            // })
+            // .catch(error => {
+            //     swal({
+            //         title: `${error.message}`,
+            //         icon: "warning",
+            //     });
+            // });
+        // }
     }
   return (
       <Container>
@@ -111,12 +126,13 @@ const Authenticate = ({user, setUser}) => {
                 {
                     SignUp? 
                         <input 
+                            required = { SignUp && true}
                             type='text'  
                             onChange={(e) => setUser({
                                 ...user,
                                 name: e.target.value
                             })} 
-                        placeholder="Enter your Name"/>
+                        placeholder="Enter your Name*"/>
                         :
                         null
                 }
@@ -134,11 +150,12 @@ const Authenticate = ({user, setUser}) => {
                 </InputTag>
                 <input 
                     type='email'
+                    autoComplete='email'
                     onChange={(e) => setUser({
                             ...user,
                             email: e.target.value
                         })} 
-                    placeholder="Enter your Email" 
+                    placeholder="Enter your Email*" 
                     required={true}
                 />
                 <InputTag>
@@ -170,7 +187,7 @@ const Authenticate = ({user, setUser}) => {
                                 password: e.target.value
                             })
                         } 
-                    placeholder='Enter your Password' 
+                    placeholder='Enter your Password*' 
                     required={true}
                 />
                 <Submit>
