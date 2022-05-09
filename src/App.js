@@ -10,6 +10,7 @@ const App = ()=>{
     const [user, setUser] = useState([{
         email: null,
         name: null,
+        ProfilePic: null,
         password: null
     }]);
 

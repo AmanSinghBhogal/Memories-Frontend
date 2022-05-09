@@ -29,14 +29,17 @@ const Authenticate = ({user, setUser}) => {
             // User ProfileObj
             const result = auth?.additionalUserInfo.profile;
             // The signed-in user info.
-            setUser({
-                name: result.name,
-                email: result.email,
-                password: result.password
-            })
+            
             if(auth){
                 navigate('/');
                 console.log(auth);
+                console.log(result.picture);
+                setUser({
+                    name: result.name,
+                    email: result.email,
+                    ProfilePic: result.picture,
+                    password: result.password
+                })
                 dispatch({
                     type: AUTH,
                     data: {result, token}
