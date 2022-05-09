@@ -59,7 +59,8 @@ const Authenticate = ({user, setUser}) => {
     {
         e.preventDefault();
         swal({
-            title: `The Email and Password login is Currently shut down for development reason. Please Proceed with Google Sign In.`,
+            title: "Please proceed with Google Sign In.",
+            text: "The email and password sign in is currently shut down for development purpose.",
             icon: "warning",
         });
         // if(SignUp)
