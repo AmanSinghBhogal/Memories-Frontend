@@ -10,7 +10,7 @@ import {useDispatch} from 'react-redux';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
-const Header = ({user, setUser}) =>{
+const Header = ({user, setUser, authState, setAuthState}) =>{
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Header = ({user, setUser}) =>{
     const handleSignUp = async () => 
     {
         setHamOpen(!hamOpen);
-        if(user.email)
+        if(authState)
         {
             swal({
                 title: "Are you sure you want to Sign out?",
@@ -29,13 +29,9 @@ const Header = ({user, setUser}) =>{
               })
               .then((willDelete) => {
                 if (willDelete) {
-                    setUser({
-                        name: '',
-                        email: '',
-                        ProfilePic: null,
-                        password: ''
-                    });
+                    setUser(null);
                     auth.signOut();
+                    setAuthState(false);
                     dispatch({
                         type: LOGOUT
                     })   
@@ -59,25 +55,25 @@ const Header = ({user, setUser}) =>{
             <NavContent>
                 <PcNav>
                     {
-                        user.email
+                        authState
                         &&
                         <>
                             <Pic>
-                                <ProfilePic profilePic = {user.ProfilePic}>
+                                <ProfilePic profilePic = {user?.result?.picture}>
                                     {/* Profile Pic Loads here. */}
-                                    {user.ProfilePic? null: user.name.charAt(0)}
+                                    {user?.result?.picture? null: user.result.name.charAt(0)}
                                 </ProfilePic>
                             </Pic>
                             <UserName>
-                                {user.name}
+                                {user?.result.name}
                             </UserName>
                         </>
                     }
                     
-                    <Link to={user.email? "/": "/auth"} onClick={handleSignUp}> 
-                        <SignIn>
+                    <Link to={authState? "/": "/auth"} onClick={handleSignUp}> 
+                        <SignIn col={authState}>
                             {
-                                user.email? 'Sign Out': 'Log In'
+                                authState? 'Log Out': 'Log In'
                             }
                         </SignIn>
                     </Link>
@@ -91,24 +87,24 @@ const Header = ({user, setUser}) =>{
                     </CloseMenu>
                     <MobProfile>
                         {
-                            user.email
+                            authState
                             &&
                             <>
                                 <Pic>
-                                    <ProfilePic profilePic = {user.ProfilePic}>
+                                    <ProfilePic profilePic = {user?.result?.picture}>
                                         {/* Profile Pic Loads here. */}
-                                        {user.ProfilePic? null: user.name.charAt(0)}
+                                        {user?.result.picture? null: user?.result.name.charAt(0)}
                                     </ProfilePic>
                                 </Pic>
                                 <UserName>
-                                    {user.name}
+                                    {user?.result.name}
                                 </UserName>
                             </>
                         }
-                        <Link to={user.email? "/": "/auth"} onClick={handleSignUp}> 
+                        <Link to={authState? "/": "/auth"} onClick={handleSignUp}> 
                             <SignIn>
                                 {
-                                    user.email? 'Sign Out': 'Log In'
+                                    authState? 'Log Out': 'Log In'
                                 }
                             </SignIn>
                         </Link>
@@ -216,7 +212,7 @@ const Title = styled.div`
 const SignIn = styled.div`
     padding: 10px;
     cursor: pointer;
-    background-color: blue;
+    background-color: ${props => props.col? 'red': 'blue'};
     border-radius: 10px;
     color: white;
     font-size: 1.2rem;

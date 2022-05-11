@@ -7,12 +7,11 @@ import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
 
 
-const Form = ({currentID, setCurrentID, user}) => {
+const Form = ({currentID, setCurrentID, user, authState}) => {
 
     const navigate = useNavigate();
 
     const [postData, setpostData] = useState({
-        creator: user.name,
         title: '',
         message: '',
         tags: '',
@@ -32,17 +31,17 @@ const Form = ({currentID, setCurrentID, user}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(currentID && user.email)
+        if(currentID && authState)
         {
-            dispatch(updatePost(postData._id, postData));
+            dispatch(updatePost(postData._id,{...postData, name: user?.result.name}));
             swal({
                 title: "Post Successfully Updated",
                 icon: "success",
             });
         }
-        else if(user.email)
+        else if(authState)
         {
-            dispatch(createPost(postData));
+            dispatch(createPost({...postData, name: user?.result.name}));
             swal({
                 title: "Post has been Successfully Posted",
                 icon: "success",
@@ -80,19 +79,6 @@ const Form = ({currentID, setCurrentID, user}) => {
                     { currentID? 'Editing' : 'Create'} a Memory
                 </FormTitle>
                 <Inputs>
-                    <input 
-                        type="text" 
-                        required = {true}
-                        id="Creator"
-                        placeholder="Creator" 
-                        value={postData.creator} 
-                        onChange={
-                            (e) => setpostData({
-                                    ...postData,
-                                    creator: e.target.value
-                                })
-                        }>
-                    </input>
                     <input 
                         type="text" 
                         id="Title" 
@@ -190,7 +176,7 @@ const Inputs = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    #Creator,#Title,#Message,#Tags,#file,#Submit,#Clear{
+    #Title,#Message,#Tags,#file,#Submit,#Clear{
         box-sizing: border-box;
         width: 98%;  
         margin: 4px;

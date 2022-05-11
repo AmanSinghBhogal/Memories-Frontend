@@ -7,24 +7,28 @@ import Authenticate from "./components/Authenticate";
 
 const App = ()=>{
 
-    const [user, setUser] = useState([{
-        email: null,
-        name: null,
-        ProfilePic: null,
-        password: null
-    }]);
+    const [authState, setAuthState] = useState(JSON.parse(localStorage.getItem('profile')) === null? false: true);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+    console.log('The user state is: ');
+    console.log(user);
+
+    useEffect(() => {
+        const token = user?.token;
+
+        setUser(JSON.parse(localStorage.getItem('profile')));
+    },[])
 
     return(
         <Router>
             <Container>
-                <NavBar user={user} setUser={setUser} />
+                <NavBar user={user} setUser={setUser} authState={authState} setAuthState={setAuthState}/>
                 <Routes>
 
                     {/* Home Page Rendering */}
-                    <Route exact path = "/" element={ <Home user={user} /> } />
+                    <Route exact path = "/" element={ <Home user={user} setUser={setUser} authState={authState} /> } />
 
                     {/* Authentication */}
-                    <Route exact path = "/auth" element={ <Authenticate user={user} setUser={setUser} /> } />
+                    <Route exact path = "/auth" element={ <Authenticate user={user} setUser={setUser} authState={authState} setAuthState={setAuthState}/> } />
 
                 </Routes>
             </Container>

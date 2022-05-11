@@ -1,27 +1,29 @@
-import React from "react";
+import React,{ useState } from "react";
 import styled from 'styled-components';
 import moment from 'moment';
 import EditIcon from '@mui/icons-material/Edit';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch } from "react-redux";
-import { deletePost, likePost, dislikePost } from "../../../actions/posts";
+import { deletePost, likePost } from "../../../actions/posts";
 import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
-const Post = ({post, currentID , setCurrentID, user}) => {
+const Post = ({post, currentID , setCurrentID, user, authState}) => {
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+    const [didLike, setDidLike] = useState(post.likes.find((like) => post.creator === (user?.result?.id || user?.result?._id)))
 
     function AlertSignIn()  
     {
         swal({
             title: "Sign In Required.",
-            text: "Please Sign in to enable this Feature.",
+            text: "Please Sign in to Like the Post.",
             icon: "warning",
         }).then(
             () => {navigate("/auth")}
@@ -32,15 +34,20 @@ const Post = ({post, currentID , setCurrentID, user}) => {
         <Container>
             <Heading BgImg={post.selectedFile}>
                 <Top>
-                    {post.creator}
-                    <button onClick={() => {
-                        if(user.email)
-                            setCurrentID(post._id)
-                        else
-                            AlertSignIn();
-                    }}>
-                        <EditIcon />
-                    </button>
+                    {post.name}
+                    {
+                        // The Edit icon will be visible only if the user is the creator
+                        (post.creator === (user?.result?._id || user?.result?.id))
+                        &&
+                        <button onClick={() => {
+                            if(authState)
+                                setCurrentID(post._id)
+                            else
+                                AlertSignIn();
+                        }}>
+                            <EditIcon />
+                        </button>
+                    }
                 </Top>
                 <Time>
                     {moment(post.createdAt).fromNow()}
@@ -59,57 +66,59 @@ const Post = ({post, currentID , setCurrentID, user}) => {
                     {post.message}
                 </Message>
                 <Actions>
-                        <Like>
-                            <button onClick={() => {
-                                if(user.email)
-                                    dispatch(likePost(post._id));
-                                else
-                                    AlertSignIn();
-                            }}>
-                                    <ThumbUpAltIcon />
-                            </button>
-                            &nbsp;
-                            <button onClick={() => {
-                                if(post.likeCount>0 && user.email) 
-                                    dispatch(dislikePost(post._id))
-                                else
-                                    AlertSignIn();
-                            }}>
-                                    <ThumbDownAltIcon />
-                            </button>
-                            &nbsp; Likes {post.likeCount}
-                        </Like>
-                    
-                    
-                    <button onClick={() => {
-                        if(user.email)
-                        {
-                            swal({
-                                title: "Are you sure?",
-                                text: "Once deleted, you will not be able to recover this Post!",
-                                icon: "warning",
-                                buttons: ["Cancel", "Yes"],
-                                dangerMode: true,
-                              })
-                              .then((willDelete) => {
-                                if (willDelete) {
-                                    dispatch(deletePost(post._id));
-                                  swal("Your Post has been Deleted Successfully!", {
-                                    icon: "success",
-                                  });
-                                } else {
-                                  swal("Your Post is Safe!");
+                    {/* Likes to be updated. */}
+                    <Like>
+                        <button onClick={() => {
+                            if(authState)
+                            {    
+                                dispatch(likePost(post._id));
+                                setDidLike(!didLike);
+                            }
+                            else
+                                AlertSignIn();
+                        }}>
+                                {
+                                    didLike? <FavoriteIcon /> : <FavoriteBorderIcon />
                                 }
-                              });
-                        }
-                        else
-                            AlertSignIn();
-                    }}>
-                        <Delete>
-                            <DeleteIcon />
-                            Delete
-                        </Delete>
-                    </button>
+                        </button>
+                        &nbsp; {post.likes.length} {`Like${post.likes.length>1?'s':' '}`}
+                    </Like>
+                    
+                    {
+                        authState
+                        &&
+                        post.creator === (user?.result.id || user?.result._id)
+                        &&
+                        <button onClick={() => {
+                            if(authState)
+                            {
+                                swal({
+                                    title: "Are you sure?",
+                                    text: "Once deleted, you will not be able to recover this Post!",
+                                    icon: "warning",
+                                    buttons: ["Cancel", "Yes"],
+                                    dangerMode: true,
+                                })
+                                .then((willDelete) => {
+                                    if (willDelete) {
+                                        dispatch(deletePost(post._id));
+                                    swal("Your Post has been Deleted Successfully!", {
+                                        icon: "success",
+                                    });
+                                    } else {
+                                    swal("Your Post is Safe!");
+                                    }
+                                });
+                            }
+                            else
+                                AlertSignIn();
+                        }}>
+                            <Delete>
+                                <DeleteIcon />
+                                Delete
+                            </Delete>
+                        </button>
+                    }
                 </Actions>
             </Body>
         </Container>
@@ -203,7 +212,13 @@ const Like = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    color: blue;
 `;
 const Delete = styled(Like)`
+`;
+
+FavoriteIcon = styled(FavoriteIcon)`
+    color: red;
+`;
+FavoriteBorderIcon = styled(FavoriteBorderIcon)`
+    color: red;
 `;

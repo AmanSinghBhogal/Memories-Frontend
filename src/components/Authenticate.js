@@ -9,19 +9,25 @@ import { FcGoogle } from "react-icons/fc";
 import { GoogleAuthProvider } from "firebase/auth";
 import {useDispatch} from 'react-redux';
 import { AUTH } from '../constants/ActionTypes';
+import { signIn, signUp } from '../actions/auth';
 
-const Authenticate = ({user, setUser}) => {
+const Authenticate = ({user, setUser, authState, setAuthState}) => {
 
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
     const [SignUp, setSignUp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [personDetail, setPersonDetail] = useState({
+        name: '',
+        email: '',
+        password: '',
+    })
 
     const handleGoogleSignIn = async() => {
         const provider = new GoogleAuthProvider();
-        await auth.
-        signInWithPopup(provider)
+        await auth
+        .signInWithPopup(provider)
         .then((auth) => {
 
             // Id Token
@@ -33,20 +39,16 @@ const Authenticate = ({user, setUser}) => {
             if(auth){
                 navigate('/');
                 console.log(auth);
+                setAuthState(true);
                 console.log(result.picture);
-                setUser({
-                    name: result.name,
-                    email: result.email,
-                    ProfilePic: result.picture,
-                    password: result.password
-                })
                 dispatch({
                     type: AUTH,
                     data: {result, token}
-                })
+                });
+                setUser(JSON.parse(localStorage.getItem('profile')));
             }
             swal({
-                title: "Registered Successful!",
+                title: "Signed In Successful!",
                 icon: "success",
             });
         })
@@ -61,51 +63,24 @@ const Authenticate = ({user, setUser}) => {
     const handleLogin = async (e) =>
     {
         e.preventDefault();
-        swal({
-            title: "Please proceed with Google Sign In.",
-            text: "The email and password sign in is currently shut down for development purpose.",
-            icon: "warning",
-        });
-        // if(SignUp)
-        // {
-            // await auth
-            // .createUserWithEmailAndPassword( user.email, user.password)
-            // .then((auth) => {
-            //     console.log(auth);
-            //     if(auth){
-            //         navigate('/');
-            //     }
-            //     swal({
-            //         title: "Registered Successful!",
-            //         icon: "success",
-            //     });
-            // })
-            // .catch(error => {
-            //     swal({
-            //         title: `${error.message}`,
-            //         icon: "warning",
-            //     });
-            // });
-        // }
-        // else
-        // {
-            // await auth
-            // .signInWithEmailAndPassword( user.email, user.password)
-            // .then((auth) =>{
-            //     console.log(auth);
-            //     navigate('/');
-            //     swal({
-            //         title: "Sign In Successful!",
-            //         icon: "success",
-            //     });
-            // })
-            // .catch(error => {
-            //     swal({
-            //         title: `${error.message}`,
-            //         icon: "warning",
-            //     });
-            // });
-        // }
+        if(SignUp)
+        {
+            dispatch(signUp(personDetail))
+            .then(() => {
+                navigate('/');
+                setAuthState(true);
+                setUser(JSON.parse(localStorage.getItem('profile')));
+            });
+        }
+        else
+        {
+            dispatch(signIn(personDetail))
+            .then(() => {
+                navigate('/');
+                setAuthState(true);
+                setUser(JSON.parse(localStorage.getItem('profile')));
+            });
+        }
     }
   return (
       <Container>
@@ -132,8 +107,8 @@ const Authenticate = ({user, setUser}) => {
                         <input 
                             required = { SignUp && true}
                             type='text'  
-                            onChange={(e) => setUser({
-                                ...user,
+                            onChange={(e) => setPersonDetail({
+                                ...personDetail,
                                 name: e.target.value
                             })} 
                         placeholder="Enter your Name*"/>
@@ -155,8 +130,8 @@ const Authenticate = ({user, setUser}) => {
                 <input 
                     type='email'
                     autoComplete='email'
-                    onChange={(e) => setUser({
-                            ...user,
+                    onChange={(e) => setPersonDetail({
+                            ...personDetail,
                             email: e.target.value
                         })} 
                     placeholder="Enter your Email*" 
@@ -186,8 +161,8 @@ const Authenticate = ({user, setUser}) => {
                 </InputTag>
                 <input 
                     type={showPassword? 'text':'password'} 
-                    onChange={(e) => setUser({
-                                ...user,
+                    onChange={(e) => setPersonDetail({
+                                ...personDetail,
                                 password: e.target.value
                             })
                         } 

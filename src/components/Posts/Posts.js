@@ -4,7 +4,7 @@ import { CircularProgress } from "@material-ui/core";
 import styled from 'styled-components';
 import { useSelector } from "react-redux";
 
-const Posts = ({ currentID ,setCurrentID, user}) => {
+const Posts = ({ currentID ,setCurrentID, user, authState}) => {
     const posts = useSelector(
         (state) => 
                 state.posts
@@ -21,7 +21,7 @@ const Posts = ({ currentID ,setCurrentID, user}) => {
                     {
                         posts.map((post) => (
                             <Card key={post._id} >
-                                <Post post={post} currentID= {currentID} setCurrentID={setCurrentID} user={user}/>
+                                <Post post={post} currentID= {currentID} setCurrentID={setCurrentID} user={user} authState={authState}/>
                             </Card>
                         ))
                     }
