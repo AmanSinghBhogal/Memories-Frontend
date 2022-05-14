@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from "react";
 import styled from 'styled-components';
 import memories from '../images/memories.png';
+import logo from '../images/logo.png';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../Authentication/firebase";
@@ -48,8 +49,8 @@ const Header = ({user, setUser, authState, setAuthState}) =>{
             <Logo>
                 <Link to="/">
                     <Title>
-                        <img src={memories} alt="Ops"/>
-                        Memories
+                        <img src={logo} alt="Ops"/>
+                        {/* Memories */}
                     </Title>
                 </Link>
             </Logo>
@@ -197,28 +198,25 @@ const Title = styled.div`
     align-items: center;
     font-size: 2.5rem;
     color: darkblue;
+    box-sizing: border-box;
     img{
-        height: 50px;
-        margin: 0 5px;
+        height: 70px;
     }
     @media (max-width: 756px)
     {
         font-size: 9vw;
-        img{
-            height: 10vw;
-        }
     }
 `;
 
 const SignIn = styled.div`
-    padding: 10px;
+    padding: 12px;
     cursor: pointer;
-    background-color: ${props => props.col? 'red': 'blue'};
+    background-color: ${props => props.col? 'red': '#f5d9c8'};
     border-radius: 10px;
-    color: white;
-    font-size: 1.2rem;
+    color: ${props => props.col? 'white': 'black'};
+    font-size: 1.3rem;
     :hover{
-        box-shadow: darkblue 0px 0px 12px 0px ;
+        box-shadow: grey 0px 0px 12px 0px ;
     }
     @media (max-width: 756px)
     {
@@ -245,7 +243,6 @@ const ProfilePic = styled.div`
     font-size: 3rem;
     width: 60px;
     aspect-ratio: 1/1;
-    border: 3px solid darkblue;
     margin: 10px;
     border-radius: 50%;
     box-sizing: border-box;
@@ -259,6 +256,7 @@ const Pic = styled.div`
 
 const UserName = styled.div`
     padding-right: 10px;
+    font-size: 1.3rem;
     text-align: center;
     @media (max-width: 824px)
     {
