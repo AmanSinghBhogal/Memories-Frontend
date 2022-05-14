@@ -27,7 +27,7 @@ const Body = styled.div`
     display: flex;
     justify-content: center;
     margin: 10px;
-    width: 80vw;
+    width: 95vw;
     @media (max-width: 756px)
     {
         flex-direction: column-reverse;

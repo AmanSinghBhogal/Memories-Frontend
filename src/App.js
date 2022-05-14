@@ -4,8 +4,14 @@ import styled from "styled-components";
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import Authenticate from "./components/Authenticate";
+import decode from 'jwt-decode';
+import { LOGOUT } from './constants/ActionTypes';
+import {useDispatch} from 'react-redux';
+import { auth } from "./Authentication/firebase";
 
 const App = ()=>{
+
+    const dispatch = useDispatch();
 
     const [authState, setAuthState] = useState(JSON.parse(localStorage.getItem('profile')) === null? false: true);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -14,6 +20,19 @@ const App = ()=>{
 
     useEffect(() => {
         const token = user?.token;
+        if(token)
+        {
+            const decodedToken = decode(token);
+            if(decodedToken.exp * 1000 < new Date().getTime())
+            {
+                setUser(null);
+                auth.signOut();
+                setAuthState(false);
+                dispatch({
+                    type: LOGOUT
+                });
+            }
+        }
 
         setUser(JSON.parse(localStorage.getItem('profile')));
     },[])

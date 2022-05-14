@@ -144,7 +144,6 @@ const Container = styled.div`
     background-color: white;
     box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
     height: fit-content;
-    width: 40%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -152,9 +151,11 @@ const Container = styled.div`
     border-radius: 8px;
     box-sizing: border-box;
     padding: 20px;
+    min-width: 440px;
     @media (max-width: 756px)
     {
         width: 100%;
+        min-width: fit-content;
     }
     form{
         width:100%;

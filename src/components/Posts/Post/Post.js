@@ -132,7 +132,7 @@ const Container = styled.div`
     flex-direction: column;
     box-sizing: border-box;
     box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
-    width: max(20vw,200px);
+    width: 250px;
     height: 400px;
     margin: 10px;
     border-radius: 8px;

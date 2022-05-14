@@ -13,7 +13,7 @@ const Posts = ({ currentID ,setCurrentID, user, authState}) => {
     return(
         !posts.length ? 
             <Container>
-                <CircularProgress />
+                <CircularProgress id="loading" />
             </Container>
             :
             (
@@ -33,7 +33,7 @@ const Posts = ({ currentID ,setCurrentID, user, authState}) => {
 export default Posts;
 
 const Container = styled.div`
-    width: 60%;
+    min-width: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,6 +42,9 @@ const Container = styled.div`
     @media (max-width: 756px)
     {
         width: 100%;
+    }
+    #loading{
+        margin: 20px;
     }
 `;
 

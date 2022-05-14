@@ -42,6 +42,7 @@ const Header = ({user, setUser, authState, setAuthState}) =>{
               });
         }
     }
+
     return(
         <Container>
             <Logo>
@@ -127,7 +128,7 @@ const Container = styled.div`
     border-radius: 10px;
     margin: 30px;
     height: 70px;
-    width: 80vw;
+    width: 90vw;
     box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
     a{
         text-decoration: none;
