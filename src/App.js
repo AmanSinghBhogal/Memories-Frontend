@@ -1,5 +1,5 @@
 import React, { useEffect , useState} from "react";
-import { BrowserRouter as Router, Routes ,Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes ,Route , Navigate } from "react-router-dom";
 import styled from "styled-components";
 import NavBar from './components/NavBar';
 import Home from './components/Home';
@@ -44,10 +44,13 @@ const App = ()=>{
                 <Routes>
 
                     {/* Home Page Rendering */}
-                    <Route exact path = "/" element={ <Home user={user} setUser={setUser} authState={authState} /> } />
+                    <Route exact path = "/" element={<Navigate replace to="/posts" />} />
+
+                    {/* Posts */}
+                    <Route exact path = "/posts" element = { <Home user={user} setUser={setUser} authState={authState} /> } />
 
                     {/* Authentication */}
-                    <Route exact path = "/auth" element={ <Authenticate user={user} setUser={setUser} authState={authState} setAuthState={setAuthState}/> } />
+                    <Route exact path = "/auth" element={ authState? <Navigate replace to="/" /> : <Authenticate user={user} setUser={setUser} authState={authState} setAuthState={setAuthState}/> } />
 
                 </Routes>
             </Container>

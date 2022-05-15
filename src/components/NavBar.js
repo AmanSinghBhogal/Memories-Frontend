@@ -211,9 +211,9 @@ const Title = styled.div`
 const SignIn = styled.div`
     padding: 12px;
     cursor: pointer;
-    background-color: ${props => props.col? 'red': '#f5d9c8'};
+    background-color: ${props => props.col? 'red': 'blue'};
     border-radius: 10px;
-    color: ${props => props.col? 'white': 'black'};
+    color: white;
     font-size: 1.3rem;
     :hover{
         box-shadow: grey 0px 0px 12px 0px ;

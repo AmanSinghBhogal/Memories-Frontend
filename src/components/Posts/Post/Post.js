@@ -214,6 +214,7 @@ const Like = styled.div`
     cursor: pointer;
 `;
 const Delete = styled(Like)`
+    color: blue;
 `;
 
 FavoriteIcon = styled(FavoriteIcon)`

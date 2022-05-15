@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
 import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
+import { Search } from "../Search";
 
 
 const Form = ({currentID, setCurrentID, user, authState}) => {
@@ -74,6 +75,7 @@ const Form = ({currentID, setCurrentID, user, authState}) => {
     };
     return(
         <Container>
+            <Search />
             <form onSubmit={handleSubmit}>
                 <FormTitle>
                     { currentID? 'Editing' : 'Create'} a Memory
@@ -141,16 +143,13 @@ const Form = ({currentID, setCurrentID, user, authState}) => {
 export default Form;
 
 const Container = styled.div`
-    background-color: white;
-    box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
-    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 8px;
+    height: fit-content;
+    background-color: white;
     box-sizing: border-box;
-    padding: 20px;
     min-width: 440px;
     @media (max-width: 756px)
     {
@@ -158,7 +157,11 @@ const Container = styled.div`
         min-width: fit-content;
     }
     form{
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: rgb(155 149 149) 0px 0px 12px 0px;
         width:100%;
+        box-sizing: border-box;
     }
 `;
 
