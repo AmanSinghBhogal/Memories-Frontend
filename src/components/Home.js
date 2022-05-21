@@ -23,17 +23,16 @@ function Home({user, setUser, authState}) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log('Dispatch from home called.');
         dispatch({
             type: LOAD_PAGE
         });
         if(searchQuery || tags)
         {
             const searchTitle = searchQuery?.trim();
-            dispatch(getPostsBySearch(searchTitle, tags)).then(() => console.log('Search Loaded'));
+            dispatch(getPostsBySearch(searchTitle, tags));
         }
         else  
-            dispatch(getPosts(Number(page) || 1)).then(() => console.log('Page Loaded'));
+            dispatch(getPosts(Number(page) || 1));
     }, [dispatch,page,searchQuery,tags]);
 
   return (
