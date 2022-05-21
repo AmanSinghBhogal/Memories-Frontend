@@ -18,10 +18,13 @@ const Form = ({currentID, setCurrentID, user, authState}) => {
         tags: '',
         selectedFile: ''
     });
-    const updatedPost = useSelector(
+
+    const { posts } = useSelector(
         (state) => 
-                currentID? state.posts.find((p) => p._id === currentID) : null
+                state.posts
     );
+
+    const updatedPost = currentID? posts.find((p) => p._id === currentID) : null;
 
     const dispatch = useDispatch();
 
@@ -34,18 +37,23 @@ const Form = ({currentID, setCurrentID, user, authState}) => {
         e.preventDefault();
         if(currentID && authState)
         {
-            dispatch(updatePost(postData._id,{...postData, name: user?.result.name}));
-            swal({
-                title: "Post Successfully Updated",
-                icon: "success",
+            dispatch(updatePost(postData._id,{...postData, name: user?.result.name})).then(() => {
+                console.log("Post Updated.");
+                swal({
+                    title: "Post Successfully Updated",
+                    icon: "success",
+                });
             });
+            
         }
         else if(authState)
         {
-            dispatch(createPost({...postData, name: user?.result.name}));
-            swal({
-                title: "Post has been Successfully Posted",
-                icon: "success",
+            dispatch(createPost({...postData, name: user?.result.name})).then(() => {
+                console.log("Post Created.")
+                swal({
+                    title: "Post has been Successfully Posted",
+                    icon: "success",
+                });
             });
         }
         else

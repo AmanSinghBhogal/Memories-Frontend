@@ -38,9 +38,9 @@ const Authenticate = ({user, setUser, authState, setAuthState}) => {
             
             if(auth){
                 navigate('/');
-                console.log(auth);
+                // console.log(auth);
                 setAuthState(true);
-                console.log(result.picture);
+                // console.log(result.picture);
                 dispatch({
                     type: AUTH,
                     data: {result, token}

@@ -101,10 +101,13 @@ const Post = ({post, currentID , setCurrentID, user, authState}) => {
                                 })
                                 .then((willDelete) => {
                                     if (willDelete) {
-                                        dispatch(deletePost(post._id));
-                                    swal("Your Post has been Deleted Successfully!", {
-                                        icon: "success",
-                                    });
+                                        dispatch(deletePost(post._id)).then(() =>
+                                            {
+                                                console.log("post deleted.");
+                                                swal("Your Post has been Deleted Successfully!", {
+                                                    icon: "success",
+                                                });
+                                        });
                                     } else {
                                     swal("Your Post is Safe!");
                                     }

@@ -1,17 +1,36 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Post from './Post/Post';
 import { CircularProgress } from "@material-ui/core";
+import { useLocation,useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
+import Paginate from "../Pagination";
+import { LOAD_PAGE } from '../../constants/ActionTypes.js';
+import { getPosts } from '../../actions/posts';
+
+function useQuery() 
+{
+    return new URLSearchParams(useLocation().search);
+}
 
 const Posts = ({ currentID ,setCurrentID, user, authState}) => {
-    const posts = useSelector(
+
+    const query = useQuery();
+    const page = query.get('page') || 1;
+    const dispatch = useDispatch();
+
+    const { posts } = useSelector(
         (state) => 
                 state.posts
     );
-    console.log(`The Posts are: ${posts}`);
+
+    useEffect(() => {
+        console.log('Dispatch from Posts called.');
+        dispatch(getPosts(page)).then(() => console.log('Page Loaded'));
+    }, [dispatch]);
+    // console.log(`The Posts are: ${posts}`);
     return(
-        !posts.length ? 
+        !posts ? 
             <Container>
                 <CircularProgress id="loading" />
             </Container>
@@ -25,6 +44,9 @@ const Posts = ({ currentID ,setCurrentID, user, authState}) => {
                             </Card>
                         ))
                     }
+                    <Pages>
+                        <Paginate />
+                    </Pages>
                 </Container>
             )
     );
@@ -53,4 +75,13 @@ const Card = styled.div`
     {
         width: 95%;
     }
+`;
+
+const Pages = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
 `;

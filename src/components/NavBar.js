@@ -134,6 +134,10 @@ const Container = styled.div`
     a{
         text-decoration: none;
     }
+    @media(max-width: 824px)
+    {
+        margin-bottom: 10px;
+    }
 `;
 
 const Logo = styled.div`
