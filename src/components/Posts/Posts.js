@@ -5,8 +5,6 @@ import { useLocation,useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch,useSelector } from "react-redux";
 import Paginate from "../Pagination";
-import { LOAD_PAGE } from '../../constants/ActionTypes.js';
-import { getPosts } from '../../actions/posts';
 
 function useQuery() 
 {
@@ -15,8 +13,6 @@ function useQuery()
 
 const Posts = ({ currentID ,setCurrentID, user, authState}) => {
 
-    const query = useQuery();
-    const page = query.get('page') || 1;
     const dispatch = useDispatch();
 
     const { posts } = useSelector(
@@ -24,11 +20,6 @@ const Posts = ({ currentID ,setCurrentID, user, authState}) => {
                 state.posts
     );
 
-    useEffect(() => {
-        console.log('Dispatch from Posts called.');
-        dispatch(getPosts(page)).then(() => console.log('Page Loaded'));
-    }, [dispatch]);
-    // console.log(`The Posts are: ${posts}`);
     return(
         !posts ? 
             <Container>

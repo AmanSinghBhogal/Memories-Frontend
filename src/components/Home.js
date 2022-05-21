@@ -34,7 +34,7 @@ function Home({user, setUser, authState}) {
         }
         else  
             dispatch(getPosts(Number(page) || 1)).then(() => console.log('Page Loaded'));
-    }, [page,searchQuery,tags]);
+    }, [dispatch,page,searchQuery,tags]);
 
   return (
         <Body>

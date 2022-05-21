@@ -4,13 +4,20 @@ import FileBase from 'react-file-base64';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts';
 import swal from 'sweetalert';
-import { useNavigate } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import { Search } from "../Search";
+
+function useQuery() 
+{
+    return new URLSearchParams(useLocation().search);
+}
 
 
 const Form = ({currentID, setCurrentID, user, authState}) => {
 
     const navigate = useNavigate();
+    const query = useQuery();
+    const page = query.get('page') || 1;
 
     const [postData, setpostData] = useState({
         title: '',
@@ -32,6 +39,9 @@ const Form = ({currentID, setCurrentID, user, authState}) => {
         if(updatedPost) 
             setpostData(updatedPost);
     }, [updatedPost]);
+    useEffect(() => {
+        clear();
+    }, [page]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
