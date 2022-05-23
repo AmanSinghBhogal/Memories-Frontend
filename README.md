@@ -1,5 +1,6 @@
 <div align="center">
-  <h1 align="center"><img align="" src="./src/images/memories.png" alt="Error 404" height="31"> Memories</h1>
+  <img align="center" src="./src/images/logo.png" alt="Error 404" height="150">
+  <h1 align="center">Memories</h1>
 </div>
 
 
