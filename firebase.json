@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "memories-a",
     "public": "build",
     "ignore": [
       "firebase.json",
