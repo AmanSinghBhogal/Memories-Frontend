@@ -12,8 +12,8 @@ Memories is an Web Application where individuals can post their daily interestin
 
 ## Screen Shots:
 <div align="center">
-  <img src="./images/1.png" height="600"  alt="S1">
-  <img src="./images/2.png" height="600"  alt="S2">
+  <img src="./public/1.png" height="600"  alt="S1">
+  <img src="./public/2.png" height="600"  alt="S2">
 </div>
 
 ### Steps to Run on Local Machine
